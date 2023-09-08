@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tambola_caller/res/theme_provider.dart';
 import 'package:tambola_caller/ui/landing_page.dart';
 import 'package:tambola_caller/utils/prefs.dart';
+import 'package:tambola_caller/utils/tts_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _prefs = PrefsHelper();
+  final ttsManager = TtsManager();
 
   @override
   void initState() {
@@ -26,6 +28,7 @@ class _MyAppState extends State<MyApp> {
     themeProvider.addListener(() {
       setState(() {});
     });
+    ttsManager.init();
   }
 
   @override

@@ -16,6 +16,15 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final _prefs = PrefsHelper();
+  bool _voiceoverEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _voiceoverEnabled = _prefs.isVoiceoverEnabled;
+    });
+  }
 
   Widget _buildTitle() {
     return Padding(
@@ -65,8 +74,13 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const Spacer(),
           CupertinoSwitch(
-            value: _prefs.isVoiceoverEnabled,
-            onChanged: (value) => _prefs.setIsVoiceoverEnabled(value),
+            value: _voiceoverEnabled,
+            onChanged: (value) {
+              _prefs.setIsVoiceoverEnabled(value);
+              setState(() {
+                _voiceoverEnabled = value;
+              });
+            },
             trackColor: Colors.black,
           ),
         ],

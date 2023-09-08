@@ -11,18 +11,6 @@ class Board {
 
   void restartGame() => _calledTiles.clear();
 
-  // TODO: Delete this?
-  int? getNextNumber() {
-    if (isGameCompleted) return null;
-    Random random = Random();
-    int newNumber;
-    do {
-      newNumber = random.nextInt(90) + 1;
-    } while (_calledTiles.contains(newNumber));
-    _markNumberCalled(newNumber);
-    return newNumber;
-  }
-
   void callNextNumber() {
     if (isGameCompleted) return;
     Random random = Random();
