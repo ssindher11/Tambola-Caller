@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tambola_caller/res/res.dart';
+import 'package:tambola_caller/utils/prefs.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.light;
+  final _prefs = PrefsHelper();
 
-  bool get isDarkMode => themeMode == ThemeMode.dark;
+  bool get isDarkMode => _prefs.isDarkModeEnabled;
 
   void switchTheme() {
-    themeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+    _prefs.setIsDarkModeEnabled(!isDarkMode);
     notifyListeners();
   }
 }

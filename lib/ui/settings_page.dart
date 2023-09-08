@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tambola_caller/res/res.dart';
 import 'package:tambola_caller/ui/views/animated_background.dart';
+import 'package:tambola_caller/utils/prefs.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,17 +15,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late SharedPreferences _preferences;
-
-  Future<void> _initSharedPreferences() async {
-    _preferences = await SharedPreferences.getInstance();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _initSharedPreferences();
-  }
+  final _prefs = PrefsHelper();
 
   Widget _buildTitle() {
     return Padding(
@@ -75,8 +65,8 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const Spacer(),
           CupertinoSwitch(
-            value: themeProvider.isDarkMode,
-            onChanged: (_) => themeProvider.switchTheme(),
+            value: _prefs.isVoiceoverEnabled,
+            onChanged: (value) => _prefs.setIsVoiceoverEnabled(value),
             trackColor: Colors.black,
           ),
         ],

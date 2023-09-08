@@ -16,6 +16,7 @@ dependencies:
   get: ^4.6.5
   rive: ^0.10.4
   shared_preferences: ^2.1.0
+  flutter_tts: ^3.8.2
 
 dev_dependencies:
   flutter_test:
