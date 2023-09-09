@@ -15,13 +15,13 @@ class PrefsHelper {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  bool get isVoiceoverEnabled => _prefs.getBool(_enableVoiceover) ?? false;
+  bool get isVoiceoverEnabled => _prefs.getBool(_enableVoiceover) ?? true;
 
   void setIsVoiceoverEnabled(bool value) {
     _prefs.setBool(_enableVoiceover, value);
   }
 
-  bool get isDarkModeEnabled => _prefs.getBool(_darkModeEnabled) ?? false;
+  bool get isDarkModeEnabled => _prefs.getBool(_darkModeEnabled) ?? true;
 
   void setIsDarkModeEnabled(bool value) {
     _prefs.setBool(_darkModeEnabled, value);

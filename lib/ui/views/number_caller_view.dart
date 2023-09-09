@@ -93,96 +93,101 @@ class _NumberCallerViewState extends State<NumberCallerView> {
                 : const SizedBox.shrink(),
           ),
           Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: theme.colorScheme.onBackground,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        margin: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: theme.colorScheme.onBackground,
+                          ),
                         ),
-                      ),
-                      alignment: Alignment.center,
-                      child: widget.previousNumber != null
-                          ? AnimatedSwitcher(
-                              duration: _animDuration,
-                              transitionBuilder: (child, animation) {
-                                return ScaleTransition(
-                                  scale: animation,
-                                  child: child,
-                                );
-                              },
-                              child: Text(
-                                key: ValueKey(widget.previousNumber),
-                                widget.previousNumber.toString(),
-                                style: theme.textTheme.displaySmall?.copyWith(
-                                  color: theme.colorScheme.onBackground,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: theme.colorScheme.onBackground,
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: widget.currentNumber != null
-                          ? AnimatedSwitcher(
-                              duration: _animDuration,
-                              transitionBuilder: (child, animation) {
-                                return ScaleTransition(
-                                  scale: animation,
-                                  child: child,
-                                );
-                              },
-                              child: Text(
-                                key: ValueKey(widget.currentNumber),
-                                widget.currentNumber.toString(),
-                                style: theme.textTheme.displayLarge?.copyWith(
-                                  color: theme.colorScheme.onBackground,
-                                ),
-                              ),
-                            )
-                          : Container(),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: FloatingActionButton(
-                      onPressed: !widget.isGameCompleted
-                          ? () {
-                              if (widget.isGameCompleted) return;
-                              widget.onNextClick();
-                              _pagerController.nextPage(
+                        alignment: Alignment.center,
+                        child: widget.previousNumber != null
+                            ? AnimatedSwitcher(
                                 duration: _animDuration,
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          : null,
-                      backgroundColor: Colors.blueAccent,
-                      foregroundColor: Colors.white,
-                      heroTag: null,
-                      tooltip: 'Next Number',
-                      child: const Icon(Icons.double_arrow),
+                                transitionBuilder: (child, animation) {
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    child: child,
+                                  );
+                                },
+                                child: Text(
+                                  key: ValueKey(widget.previousNumber),
+                                  widget.previousNumber.toString(),
+                                  style: theme.textTheme.displaySmall?.copyWith(
+                                    color: theme.colorScheme.onBackground,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: theme.colorScheme.onBackground,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: widget.currentNumber != null
+                            ? AnimatedSwitcher(
+                                duration: _animDuration,
+                                transitionBuilder: (child, animation) {
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    child: child,
+                                  );
+                                },
+                                child: Text(
+                                  key: ValueKey(widget.currentNumber),
+                                  widget.currentNumber.toString(),
+                                  style: theme.textTheme.displayLarge?.copyWith(
+                                    color: theme.colorScheme.onBackground,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: FloatingActionButton(
+                        onPressed: !widget.isGameCompleted
+                            ? () {
+                                if (widget.isGameCompleted) return;
+                                widget.onNextClick();
+                                _pagerController.nextPage(
+                                  duration: _animDuration,
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            : null,
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white,
+                        heroTag: null,
+                        tooltip: 'Next Number',
+                        child: const Icon(Icons.double_arrow),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
