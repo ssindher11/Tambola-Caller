@@ -1,9 +1,9 @@
 {
-    "name": "tambola_caller",
-    "short_name": "tambola_caller",
+    "name": "Tambola Caller",
+    "short_name": "Tambola Caller",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#FFFFFF",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
