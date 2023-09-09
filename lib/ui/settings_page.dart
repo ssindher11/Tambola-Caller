@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +20,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _prefs = PrefsHelper();
   final _ttsManager = TtsManager();
+  late ExpandableController _expandableController;
 
   bool _voiceoverEnabled = false;
   double _pitch = 1.0;
@@ -28,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    _expandableController =
+        ExpandableController(initialExpanded: _prefs.isVoiceoverEnabled);
     setState(() {
       _voiceoverEnabled = _prefs.isVoiceoverEnabled;
       _pitch = _prefs.voicePitch;
@@ -76,28 +80,44 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildVoiceToggleSection(ThemeData theme) {
+    return Row(
+      children: [
+        Text(
+          'Speak Phrases',
+          style: theme.textTheme.titleLarge,
+        ),
+        const Spacer(),
+        CupertinoSwitch(
+          value: _voiceoverEnabled,
+          onChanged: (value) {
+            _prefs.setIsVoiceoverEnabled(value);
+            setState(() {
+              _voiceoverEnabled = value;
+              _expandableController.expanded = value;
+            });
+          },
+          trackColor: Colors.black,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildExpansionList(ThemeData theme) {
+    return ExpandableTheme(
+      data: const ExpandableThemeData(hasIcon: false),
+      child: ExpandablePanel(
+        header: _buildVoiceToggleSection(theme),
+        collapsed: const SizedBox.shrink(),
+        expanded: _buildSpeechSettings(theme),
+        controller: _expandableController,
+      ),
+    );
+  }
+
+  Widget _buildSpeechSettings(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              'Speak Phrases',
-              style: theme.textTheme.titleLarge,
-            ),
-            const Spacer(),
-            CupertinoSwitch(
-              value: _voiceoverEnabled,
-              onChanged: (value) {
-                _prefs.setIsVoiceoverEnabled(value);
-                setState(() {
-                  _voiceoverEnabled = value;
-                });
-              },
-              trackColor: Colors.black,
-            ),
-          ],
-        ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 16),
           child: Divider(),
@@ -218,24 +238,26 @@ class _SettingsPageState extends State<SettingsPage> {
           SafeArea(
             child: SizedBox(
               width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const RotatedBox(
-                      quarterTurns: 2,
-                      child: Icon(
-                        Icons.arrow_right_alt,
-                        size: 48,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const RotatedBox(
+                        quarterTurns: 2,
+                        child: Icon(
+                          Icons.arrow_right_alt,
+                          size: 48,
+                        ),
                       ),
                     ),
-                  ),
-                  _buildTitle(),
-                  const SizedBox(height: 40),
-                  _buildSettingsCard(theme, _buildThemeToggleRow(theme)),
-                  _buildSettingsCard(theme, _buildVoiceToggleSection(theme)),
-                ],
+                    _buildTitle(),
+                    const SizedBox(height: 40),
+                    _buildSettingsCard(theme, _buildThemeToggleRow(theme)),
+                    _buildSettingsCard(theme, _buildExpansionList(theme)),
+                  ],
+                ),
               ),
             ),
           ),
