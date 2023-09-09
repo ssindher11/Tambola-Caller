@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tambola_caller/data/model/board.dart';
 import 'package:tambola_caller/data/number_phrases.dart';
@@ -23,6 +26,19 @@ class _GamePageState extends State<GamePage> {
     super.dispose();
   }
 
+  Widget _buildBackIcon() {
+    return IconButton(
+      onPressed: () => Navigator.pop(context),
+      icon: const RotatedBox(
+        quarterTurns: 2,
+        child: Icon(
+          Icons.arrow_right_alt,
+          size: 48,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +50,12 @@ class _GamePageState extends State<GamePage> {
               width: double.infinity,
               child: Column(
                 children: [
+                  kIsWeb || !Platform.isAndroid
+                      ? Align(
+                          alignment: Alignment.centerLeft,
+                          child: _buildBackIcon(),
+                        )
+                      : const SizedBox.shrink(),
                   Expanded(
                     child: BoardView(_board),
                   ),
@@ -45,7 +67,8 @@ class _GamePageState extends State<GamePage> {
                       onNextClick: () async {
                         _board.callNextNumber();
                         await _ttsManager.stop();
-                        _ttsManager.speak('${numPhrases[_board.currentNumber]!}.  Number ${_board.currentNumber}');
+                        _ttsManager.speak(
+                            '${numPhrases[_board.currentNumber]!}.  Number ${_board.currentNumber}');
                         setState(() {});
                       },
                       onRestartClick: () {

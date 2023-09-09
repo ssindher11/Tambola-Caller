@@ -9,6 +9,7 @@ import 'package:tambola_caller/ui/views/animated_background.dart';
 import 'package:tambola_caller/ui/views/audio_waveform.dart';
 import 'package:tambola_caller/utils/prefs.dart';
 import 'package:tambola_caller/utils/tts_manager.dart';
+import 'package:tambola_caller/utils/ui_utils.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -168,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
           'Sample',
           style: theme.textTheme.titleMedium,
         ),
+        const SizedBox(height: 8),
         Row(
           children: [
             ElevatedButton(
@@ -240,22 +242,35 @@ class _SettingsPageState extends State<SettingsPage> {
               width: double.infinity,
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const RotatedBox(
-                        quarterTurns: 2,
-                        child: Icon(
-                          Icons.arrow_right_alt,
-                          size: 48,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const RotatedBox(
+                          quarterTurns: 2,
+                          child: Icon(
+                            Icons.arrow_right_alt,
+                            size: 48,
+                          ),
                         ),
                       ),
                     ),
-                    _buildTitle(),
-                    const SizedBox(height: 40),
-                    _buildSettingsCard(theme, _buildThemeToggleRow(theme)),
-                    _buildSettingsCard(theme, _buildExpansionList(theme)),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: UiUtils.getMaxWidth(context),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTitle(),
+                          const SizedBox(height: 40),
+                          _buildSettingsCard(
+                              theme, _buildThemeToggleRow(theme)),
+                          _buildSettingsCard(theme, _buildExpansionList(theme)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
