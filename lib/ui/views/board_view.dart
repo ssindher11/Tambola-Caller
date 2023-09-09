@@ -22,6 +22,7 @@ class BoardView extends StatelessWidget {
             isSelected: board.isNumberCalled(index + 1),
           ),
           itemCount: 90,
+          physics: const NeverScrollableScrollPhysics(),
         ),
       ),
     );

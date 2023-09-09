@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsHelper {
@@ -15,13 +16,13 @@ class PrefsHelper {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  bool get isVoiceoverEnabled => _prefs.getBool(_enableVoiceover) ?? false;
+  bool get isVoiceoverEnabled => _prefs.getBool(_enableVoiceover) ?? true;
 
   void setIsVoiceoverEnabled(bool value) {
     _prefs.setBool(_enableVoiceover, value);
   }
 
-  bool get isDarkModeEnabled => _prefs.getBool(_darkModeEnabled) ?? false;
+  bool get isDarkModeEnabled => _prefs.getBool(_darkModeEnabled) ?? true;
 
   void setIsDarkModeEnabled(bool value) {
     _prefs.setBool(_darkModeEnabled, value);
@@ -33,7 +34,7 @@ class PrefsHelper {
     _prefs.setDouble(_voicePitch, value);
   }
 
-  double get voiceRate => _prefs.getDouble(_voiceRate) ?? 0.4;
+  double get voiceRate => _prefs.getDouble(_voiceRate) ?? (kIsWeb ? 0.8 : 0.4);
 
   void setVoiceRate(double value) {
     _prefs.setDouble(_voiceRate, value);

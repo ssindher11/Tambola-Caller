@@ -38,12 +38,31 @@ class _SettingsPageState extends State<SettingsPage> {
       _pitch = _prefs.voicePitch;
       _rate = _prefs.voiceRate;
     });
+    _initTtsCallbackHandlers();
   }
 
   @override
   void dispose() {
     _ttsManager.stop();
     super.dispose();
+  }
+
+  void _initTtsCallbackHandlers() {
+    _ttsManager.tts.setStartHandler(() {
+      setState(() {
+        _isSamplePlaying = true;
+      });
+    });
+    _ttsManager.tts.setCancelHandler(() {
+      setState(() {
+        _isSamplePlaying = false;
+      });
+    });
+    _ttsManager.tts.setCompletionHandler(() {
+      setState(() {
+        _isSamplePlaying = false;
+      });
+    });
   }
 
   Widget _buildTitle() {
@@ -179,9 +198,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     setState(() {
                       _isSamplePlaying = false;
                     });
-                  });
-                  setState(() {
-                    _isSamplePlaying = true;
                   });
                 }
               },
