@@ -59,4 +59,13 @@ class TtsManager {
       onStopped?.call();
     }
   }
+
+  void setVoicePitch(double value) {
+    _flutterTts.setPitch(value);
+    _prefs.setVoicePitch(value);
+  }
+  void setVoiceRate(double value) {
+    _flutterTts.setSpeechRate(value);
+    _prefs.setVoiceRate(value);
+  }
 }

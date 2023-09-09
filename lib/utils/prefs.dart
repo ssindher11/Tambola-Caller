@@ -27,6 +27,20 @@ class PrefsHelper {
     _prefs.setBool(_darkModeEnabled, value);
   }
 
+  double get voicePitch => _prefs.getDouble(_voicePitch) ?? 1.0;
+
+  void setVoicePitch(double value) {
+    _prefs.setDouble(_voicePitch, value);
+  }
+
+  double get voiceRate => _prefs.getDouble(_voiceRate) ?? 0.4;
+
+  void setVoiceRate(double value) {
+    _prefs.setDouble(_voiceRate, value);
+  }
+
   final String _enableVoiceover = 'enable_voiceover';
   final String _darkModeEnabled = 'dark_mode_enabled';
+  final String _voicePitch = 'voice_pitch';
+  final String _voiceRate = 'voice_rate';
 }
